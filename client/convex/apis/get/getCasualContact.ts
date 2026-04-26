@@ -1,8 +1,9 @@
 import { query } from "../../_generated/server";
+import { paginationOptsValidator } from "convex/server";
 
 export const get = query({
-  args: {},
-  handler: async (ctx) => {
-    return await ctx.db.query("casual_contact").collect();
+  args: { paginationOpts: paginationOptsValidator },
+  handler: async (ctx, args) => {
+    return await ctx.db.query("casual_contact").order("desc").paginate(args.paginationOpts);
   },
 });

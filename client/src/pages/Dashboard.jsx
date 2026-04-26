@@ -3,14 +3,22 @@ import { Box, Typography } from '@mui/material';
 import Sidebar from '../components/dashboard/Sidebar.jsx';
 import Messages from '../components/dashboard/Messages.jsx';
 import '../assets/styles/dashboard-styles/Dashboard.css';
-import { useQuery } from 'convex/react';
+import { useQuery, usePaginatedQuery } from 'convex/react';
 import { api } from '../../convex/_generated/api.js';
 
 const Dashboard = () => {
-  const directContactsData = useQuery(api.apis.get.getCasualContact.get);
-  const smartContactsData  = useQuery(api.apis.get.getSmartContact.get);
+  const { results: directContactsData, status: directContactsStatus, loadMore: loadMoreDirectContacts } = usePaginatedQuery(
+    api.apis.get.getCasualContact.get, 
+    {}, 
+    { initialNumItems: 10 }
+  );
+  const { results: smartContactsData, status: smartContactsStatus, loadMore: loadMoreSmartContacts } = usePaginatedQuery(
+    api.apis.get.getSmartContact.get, 
+    {}, 
+    { initialNumItems: 10 }
+  );
 
-  const [activeTab, setActiveTab]           = useState('messages');
+  const [activeTab, setActiveTab] = useState('messages');
   const [directContacts, setDirectContacts] = useState([]);
   const [projectQueries, setProjectQueries] = useState([]);
 
@@ -22,9 +30,9 @@ const Dashboard = () => {
     if (smartContactsData) setProjectQueries(smartContactsData);
   }, [smartContactsData]);
 
-  const handleDeleteDirect  = (id) => setDirectContacts(prev => prev.filter(c => c._id !== id));
+  const handleDeleteDirect = (id) => setDirectContacts(prev => prev.filter(c => c._id !== id));
   const handleDeleteProject = (id) => setProjectQueries(prev => prev.filter(q => q._id !== id));
-  const handleUpdateStatus  = (id, newStatus) =>
+  const handleUpdateStatus = (id, newStatus) =>
     setProjectQueries(prev =>
       prev.map(q => q._id === id ? { ...q, status: newStatus } : q)
     );
@@ -37,7 +45,11 @@ const Dashboard = () => {
         {activeTab === 'messages' && (
           <Messages
             directContacts={directContacts}
-            projectQueries={projectQueries}
+            directContactsStatus={directContactsStatus}
+            loadMoreDirectContacts={loadMoreDirectContacts}
+            projectQueriesData={projectQueries}
+            smartContactsStatus={smartContactsStatus}
+            loadMoreSmartContacts={loadMoreSmartContacts}
             onDeleteDirect={handleDeleteDirect}
             onDeleteProject={handleDeleteProject}
             onUpdateStatus={handleUpdateStatus}

@@ -19,6 +19,7 @@ import {
 } from 'react-icons/lu';
 import MessageDetail from './MessageDetail.jsx';
 import '../../assets/styles/dashboard-styles/Messages.css';
+import { usePaginatedQuery } from "convex/react";
 
 const PAGE_SIZE = 10;
 const STATUS_OPTIONS = ['new', 'priority', 'in progress', 'done', 'ignored'];
@@ -36,70 +37,99 @@ const STATUS_OPTIONS = ['new', 'priority', 'in progress', 'done', 'ignored'];
  */
 const Messages = ({
   directContacts = [],
-  projectQueries = [],
+  directContactsStatus,
+  loadMoreDirectContacts,
+  projectQueriesData = [],
+  smartContactsStatus,
+  loadMoreSmartContacts,
   onDeleteDirect,
   onDeleteProject,
   onUpdateStatus,
 }) => {
+
   const [activeTab, setActiveTab] = useState('all');
-  const [selected, setSelected]   = useState(null);   // null = list view; row = detail view
-  const [pages, setPages]         = useState({ all: 1, normal: 1, project: 1 });
+  const [selected, setSelected] = useState(null);   // null = list view; row = detail view
+  const [pages, setPages] = useState({ all: 1, normal: 1, project: 1 });
+
+  const projectQueries = Array.isArray(projectQueriesData)
+    ? projectQueriesData
+    : (projectQueriesData?.page || []);
+
+
 
   /* ── Normalise both lists into one shape ── */
   const normalised = useMemo(() => {
     const direct = directContacts.map(c => ({
-      _id:         c._id,
-      type:        'direct',
-      senderName:  c.fullname,
+      _id: c._id,
+      type: 'direct',
+      senderName: c.fullname,
       senderEmail: c.email,
-      subject:     c.message?.split(' ').slice(0, 5).join(' ') || 'No subject',
-      snippet:     c.message || '',
-      ts:          c._creationTime,
-      raw:         c,
+      subject: c.message?.split(' ').slice(0, 5).join(' ') || 'No subject',
+      snippet: c.message || '',
+      ts: c._creationTime,
+      raw: c,
     }));
 
     const project = projectQueries.map(q => ({
-      _id:         q._id,
-      type:        'project',
-      senderName:  q.client_info?.fullname || '—',
-      senderEmail: q.client_info?.email    || '',
-      subject:     q.prj_type || q.client_info?.prj_title || 'Project Query',
-      snippet:     q.client_info?.prj_description || '',
-      ts:          q._creationTime,
-      status:      q.status,
-      raw:         q,
+      _id: q._id,
+      type: 'project',
+      senderName: q.client_info?.fullname || '—',
+      senderEmail: q.client_info?.email || '',
+      subject: q.prj_type || q.client_info?.prj_title || 'Project Query',
+      snippet: q.client_info?.prj_description || '',
+      ts: q._creationTime,
+      status: q.status,
+      raw: q,
     }));
 
     return {
       direct,
       project,
-      all: [...direct, ...project].sort((a, b) => b.ts - a.ts),
+      all: [...direct, ...project].sort((a, b) => b.ts - a.ts), // need validation
     };
   }, [directContacts, projectQueries]);
 
+
   /* ── Rows for current tab ── */
   const tabRows = useMemo(() => ({
-    all:     normalised.all,
-    normal:  [...normalised.direct].sort((a, b) => b.ts - a.ts),
+    all: normalised.all,
+    normal: [...normalised.direct].sort((a, b) => b.ts - a.ts),
     project: [...normalised.project].sort((a, b) => b.ts - a.ts),
   }), [normalised]);
 
   const currentRows = tabRows[activeTab] || [];
   const currentPage = pages[activeTab];
-  const totalRows   = currentRows.length;
-  const totalPages  = Math.max(1, Math.ceil(totalRows / PAGE_SIZE));
-  const startIdx    = (currentPage - 1) * PAGE_SIZE;
-  const pageRows    = currentRows.slice(startIdx, startIdx + PAGE_SIZE);
-  const startNum    = totalRows === 0 ? 0 : startIdx + 1;
-  const endNum      = Math.min(startIdx + PAGE_SIZE, totalRows);
+  const startIdx = (currentPage - 1) * PAGE_SIZE;
+  const pageRows = currentRows.slice(startIdx, startIdx + PAGE_SIZE);
+  const startNum = pageRows.length === 0 ? 0 : startIdx + 1;
+  const endNum = startIdx + pageRows.length;
+
+  const canLoadMoreServer = (tab) => {
+    if (tab === 'project') return smartContactsStatus === 'CanLoadMore';
+    if (tab === 'normal') return directContactsStatus === 'CanLoadMore';
+    if (tab === 'all') return smartContactsStatus === 'CanLoadMore' || directContactsStatus === 'CanLoadMore';
+    return false;
+  };
+
+  const hasMoreLocal = currentRows.length > currentPage * PAGE_SIZE;
+  const canGoNext = hasMoreLocal || canLoadMoreServer(activeTab);
 
   const setPage = (tab, p) => setPages(prev => ({ ...prev, [tab]: p }));
+
+  const handleNextPage = () => {
+    const nextItemsNeeded = (currentPage + 1) * PAGE_SIZE;
+    if (currentRows.length < nextItemsNeeded && canLoadMoreServer(activeTab)) {
+      if ((activeTab === 'project' || activeTab === 'all') && smartContactsStatus === 'CanLoadMore') loadMoreSmartContacts(PAGE_SIZE);
+      if ((activeTab === 'normal' || activeTab === 'all') && directContactsStatus === 'CanLoadMore') loadMoreDirectContacts(PAGE_SIZE);
+    }
+    setPage(activeTab, currentPage + 1);
+  };
 
   /* ── Helpers ── */
   const formatTime = (ts) => {
     if (!ts) return '';
-    const date      = new Date(ts);
-    const now       = new Date();
+    const date = new Date(ts);
+    const now = new Date();
     const yesterday = new Date(now);
     yesterday.setDate(now.getDate() - 1);
     if (date.toDateString() === now.toDateString())
@@ -122,8 +152,8 @@ const Messages = ({
   };
 
   /* ── Detail view callbacks ── */
-  const handleOpenDetail  = (row) => setSelected(row);
-  const handleCloseDetail = ()    => setSelected(null);
+  const handleOpenDetail = (row) => { setSelected(row); console.log(row) };
+  const handleCloseDetail = () => setSelected(null);
   const handleDetailDelete = (row) => {
     handleDeleteRow(row);
     setSelected(null);
@@ -139,8 +169,8 @@ const Messages = ({
   };
 
   const tabs = [
-    { id: 'all',     label: 'All Messages',       icon: null },
-    { id: 'normal',  label: 'Normal',             icon: <LuUser size={13} /> },
+    { id: 'all', label: 'All Messages', icon: null },
+    { id: 'normal', label: 'Normal', icon: <LuUser size={13} /> },
     { id: 'project', label: 'Project Discussion', icon: <LuMessageSquare size={13} /> },
   ];
 
@@ -155,6 +185,7 @@ const Messages = ({
       />
     );
   }
+
 
   /* ─────────────────────────────────────────────── */
   return (
@@ -187,7 +218,7 @@ const Messages = ({
 
             <Box className="msg-pagination">
               <Typography className="msg-pagination-info">
-                {totalRows === 0 ? '0' : `${startNum}–${endNum}`} of {totalRows}
+                {startNum === 0 && endNum === 0 ? '0' : `${startNum}–${endNum}`}
               </Typography>
               <IconButton
                 className="msg-pagination-btn"
@@ -200,8 +231,8 @@ const Messages = ({
               <IconButton
                 className="msg-pagination-btn"
                 size="small"
-                disabled={currentPage >= totalPages}
-                onClick={() => setPage(activeTab, currentPage + 1)}
+                disabled={!canGoNext}
+                onClick={handleNextPage}
               >
                 <LuChevronRight size={13} />
               </IconButton>
@@ -244,7 +275,7 @@ const Messages = ({
             <ul className="msg-list">
               {pageRows.map((row, idx) => {
                 const isUnread = idx === 0 && currentPage === 1;
-                const slug     = slugStatus(row.status);
+                const slug = slugStatus(row.status);
                 return (
                   <li
                     key={row._id}
