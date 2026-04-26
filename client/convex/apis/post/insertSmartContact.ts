@@ -1,5 +1,5 @@
-import { mutation } from "../../_generated/server";
-import { v } from "convex/values";
+import { mutation } from '../../_generated/server';
+import { v } from 'convex/values';
 
 export const createSmartContact = mutation({
   args: {
@@ -27,7 +27,7 @@ export const createSmartContact = mutation({
   },
 
   handler: async (ctx, args) => {
-    const recordId = await ctx.db.insert("smart_contact", args);
+    const recordId = await ctx.db.insert('smart_contact', args);
     return recordId;
   },
 });

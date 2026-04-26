@@ -1,12 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import {
-  Box,
-  IconButton,
-  Typography,
-  Tabs,
-  Tab,
-  Button,
-} from '@mui/material';
+import { Box, IconButton, Typography, Tabs, Tab, Button } from '@mui/material';
 import {
   LuMail,
   LuTrash2,
@@ -19,7 +12,7 @@ import {
 } from 'react-icons/lu';
 import MessageDetail from './MessageDetail.jsx';
 import '../../assets/styles/dashboard-styles/Messages.css';
-import { usePaginatedQuery } from "convex/react";
+import { usePaginatedQuery } from 'convex/react';
 
 const PAGE_SIZE = 10;
 const STATUS_OPTIONS = ['new', 'priority', 'in progress', 'done', 'ignored'];
@@ -46,20 +39,17 @@ const Messages = ({
   onDeleteProject,
   onUpdateStatus,
 }) => {
-
   const [activeTab, setActiveTab] = useState('all');
-  const [selected, setSelected] = useState(null);   // null = list view; row = detail view
+  const [selected, setSelected] = useState(null); // null = list view; row = detail view
   const [pages, setPages] = useState({ all: 1, normal: 1, project: 1 });
 
   const projectQueries = Array.isArray(projectQueriesData)
     ? projectQueriesData
-    : (projectQueriesData?.page || []);
-
-
+    : projectQueriesData?.page || [];
 
   /* ── Normalise both lists into one shape ── */
   const normalised = useMemo(() => {
-    const direct = directContacts.map(c => ({
+    const direct = directContacts.map((c) => ({
       _id: c._id,
       type: 'direct',
       senderName: c.fullname,
@@ -70,7 +60,7 @@ const Messages = ({
       raw: c,
     }));
 
-    const project = projectQueries.map(q => ({
+    const project = projectQueries.map((q) => ({
       _id: q._id,
       type: 'project',
       senderName: q.client_info?.fullname || '—',
@@ -89,13 +79,15 @@ const Messages = ({
     };
   }, [directContacts, projectQueries]);
 
-
   /* ── Rows for current tab ── */
-  const tabRows = useMemo(() => ({
-    all: normalised.all,
-    normal: [...normalised.direct].sort((a, b) => b.ts - a.ts),
-    project: [...normalised.project].sort((a, b) => b.ts - a.ts),
-  }), [normalised]);
+  const tabRows = useMemo(
+    () => ({
+      all: normalised.all,
+      normal: [...normalised.direct].sort((a, b) => b.ts - a.ts),
+      project: [...normalised.project].sort((a, b) => b.ts - a.ts),
+    }),
+    [normalised]
+  );
 
   const currentRows = tabRows[activeTab] || [];
   const currentPage = pages[activeTab];
@@ -107,20 +99,32 @@ const Messages = ({
   const canLoadMoreServer = (tab) => {
     if (tab === 'project') return smartContactsStatus === 'CanLoadMore';
     if (tab === 'normal') return directContactsStatus === 'CanLoadMore';
-    if (tab === 'all') return smartContactsStatus === 'CanLoadMore' || directContactsStatus === 'CanLoadMore';
+    if (tab === 'all')
+      return (
+        smartContactsStatus === 'CanLoadMore' ||
+        directContactsStatus === 'CanLoadMore'
+      );
     return false;
   };
 
   const hasMoreLocal = currentRows.length > currentPage * PAGE_SIZE;
   const canGoNext = hasMoreLocal || canLoadMoreServer(activeTab);
 
-  const setPage = (tab, p) => setPages(prev => ({ ...prev, [tab]: p }));
+  const setPage = (tab, p) => setPages((prev) => ({ ...prev, [tab]: p }));
 
   const handleNextPage = () => {
     const nextItemsNeeded = (currentPage + 1) * PAGE_SIZE;
     if (currentRows.length < nextItemsNeeded && canLoadMoreServer(activeTab)) {
-      if ((activeTab === 'project' || activeTab === 'all') && smartContactsStatus === 'CanLoadMore') loadMoreSmartContacts(PAGE_SIZE);
-      if ((activeTab === 'normal' || activeTab === 'all') && directContactsStatus === 'CanLoadMore') loadMoreDirectContacts(PAGE_SIZE);
+      if (
+        (activeTab === 'project' || activeTab === 'all') &&
+        smartContactsStatus === 'CanLoadMore'
+      )
+        loadMoreSmartContacts(PAGE_SIZE);
+      if (
+        (activeTab === 'normal' || activeTab === 'all') &&
+        directContactsStatus === 'CanLoadMore'
+      )
+        loadMoreDirectContacts(PAGE_SIZE);
     }
     setPage(activeTab, currentPage + 1);
   };
@@ -133,7 +137,10 @@ const Messages = ({
     const yesterday = new Date(now);
     yesterday.setDate(now.getDate() - 1);
     if (date.toDateString() === now.toDateString())
-      return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+      return date.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
     if (date.toDateString() === yesterday.toDateString()) return 'Yesterday';
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
@@ -152,7 +159,10 @@ const Messages = ({
   };
 
   /* ── Detail view callbacks ── */
-  const handleOpenDetail = (row) => { setSelected(row); console.log(row) };
+  const handleOpenDetail = (row) => {
+    setSelected(row);
+    console.log(row);
+  };
   const handleCloseDetail = () => setSelected(null);
   const handleDetailDelete = (row) => {
     handleDeleteRow(row);
@@ -161,9 +171,13 @@ const Messages = ({
   const handleDetailStatusChange = (id, newStatus) => {
     handleStatusChange(id, newStatus);
     // Keep selected in sync so the detail view reflects the update immediately
-    setSelected(prev =>
+    setSelected((prev) =>
       prev && prev._id === id
-        ? { ...prev, status: newStatus, raw: { ...prev.raw, status: newStatus } }
+        ? {
+            ...prev,
+            status: newStatus,
+            raw: { ...prev.raw, status: newStatus },
+          }
         : prev
     );
   };
@@ -171,7 +185,11 @@ const Messages = ({
   const tabs = [
     { id: 'all', label: 'All Messages', icon: null },
     { id: 'normal', label: 'Normal', icon: <LuUser size={13} /> },
-    { id: 'project', label: 'Project Discussion', icon: <LuMessageSquare size={13} /> },
+    {
+      id: 'project',
+      label: 'Project Discussion',
+      icon: <LuMessageSquare size={13} />,
+    },
   ];
 
   /* ── If a message is selected, render the detail view instead ── */
@@ -186,15 +204,17 @@ const Messages = ({
     );
   }
 
-
   /* ─────────────────────────────────────────────── */
   return (
     <Box className="messages-container">
-
       {/* ── Topbar ── */}
       <Box component="header" className="msg-topbar">
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <IconButton className="msg-topbar-icon-btn" title="Notifications" size="small">
+          <IconButton
+            className="msg-topbar-icon-btn"
+            title="Notifications"
+            size="small"
+          >
             <LuBell size={18} />
           </IconButton>
           <Box className="msg-topbar-avatar">HU</Box>
@@ -204,10 +224,11 @@ const Messages = ({
       {/* ── Page Body ── */}
       <Box component="main" className="msg-body">
         <Typography className="msg-breadcrumb">INBOX</Typography>
-        <Typography component="h1" className="msg-page-title">Messages</Typography>
+        <Typography component="h1" className="msg-page-title">
+          Messages
+        </Typography>
 
         <Box className="msg-panel">
-
           {/* ── Toolbar ── */}
           <Box className="msg-toolbar">
             <Box className="msg-toolbar-left">
@@ -245,13 +266,15 @@ const Messages = ({
             onChange={(_, newVal) => setActiveTab(newVal)}
             className="msg-tabs-root"
           >
-            {tabs.map(tab => (
+            {tabs.map((tab) => (
               <Tab
                 key={tab.id}
                 value={tab.id}
                 className="msg-tab-item"
                 label={
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Box
+                    sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+                  >
                     {tab.icon && tab.icon}
                     {tab.label}
                   </Box>
@@ -266,7 +289,9 @@ const Messages = ({
               <Box className="msg-empty-icon">
                 <LuMail size={22} />
               </Box>
-              <Typography className="msg-empty-title">No messages yet</Typography>
+              <Typography className="msg-empty-title">
+                No messages yet
+              </Typography>
               <Typography className="msg-empty-text">
                 Messages will appear here once received
               </Typography>
@@ -279,7 +304,9 @@ const Messages = ({
                 return (
                   <li
                     key={row._id}
-                    className={['msg-row', isUnread ? 'unread' : ''].filter(Boolean).join(' ')}
+                    className={['msg-row', isUnread ? 'unread' : '']
+                      .filter(Boolean)
+                      .join(' ')}
                     onClick={() => handleOpenDetail(row)}
                   >
                     {/* Type dot */}
@@ -300,20 +327,25 @@ const Messages = ({
                     {row.type === 'project' && (
                       <span
                         className="msg-inline-status"
-                        onClick={e => e.stopPropagation()}
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <select
                           className={`msg-inline-select ${slug}`}
                           value={row.raw.status || 'new'}
-                          onChange={e => handleStatusChange(row._id, e.target.value)}
+                          onChange={(e) =>
+                            handleStatusChange(row._id, e.target.value)
+                          }
                         >
-                          {STATUS_OPTIONS.map(s => (
+                          {STATUS_OPTIONS.map((s) => (
                             <option key={s} value={s}>
                               {s.charAt(0).toUpperCase() + s.slice(1)}
                             </option>
                           ))}
                         </select>
-                        <LuChevronLeft size={10} className="msg-inline-chevron" />
+                        <LuChevronLeft
+                          size={10}
+                          className="msg-inline-chevron"
+                        />
                       </span>
                     )}
 

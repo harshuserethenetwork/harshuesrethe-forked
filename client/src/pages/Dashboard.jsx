@@ -7,14 +7,22 @@ import { useQuery, usePaginatedQuery } from 'convex/react';
 import { api } from '../../convex/_generated/api.js';
 
 const Dashboard = () => {
-  const { results: directContactsData, status: directContactsStatus, loadMore: loadMoreDirectContacts } = usePaginatedQuery(
-    api.apis.get.getCasualContact.get, 
-    {}, 
+  const {
+    results: directContactsData,
+    status: directContactsStatus,
+    loadMore: loadMoreDirectContacts,
+  } = usePaginatedQuery(
+    api.apis.get.getCasualContact.get,
+    {},
     { initialNumItems: 10 }
   );
-  const { results: smartContactsData, status: smartContactsStatus, loadMore: loadMoreSmartContacts } = usePaginatedQuery(
-    api.apis.get.getSmartContact.get, 
-    {}, 
+  const {
+    results: smartContactsData,
+    status: smartContactsStatus,
+    loadMore: loadMoreSmartContacts,
+  } = usePaginatedQuery(
+    api.apis.get.getSmartContact.get,
+    {},
     { initialNumItems: 10 }
   );
 
@@ -30,11 +38,13 @@ const Dashboard = () => {
     if (smartContactsData) setProjectQueries(smartContactsData);
   }, [smartContactsData]);
 
-  const handleDeleteDirect = (id) => setDirectContacts(prev => prev.filter(c => c._id !== id));
-  const handleDeleteProject = (id) => setProjectQueries(prev => prev.filter(q => q._id !== id));
+  const handleDeleteDirect = (id) =>
+    setDirectContacts((prev) => prev.filter((c) => c._id !== id));
+  const handleDeleteProject = (id) =>
+    setProjectQueries((prev) => prev.filter((q) => q._id !== id));
   const handleUpdateStatus = (id, newStatus) =>
-    setProjectQueries(prev =>
-      prev.map(q => q._id === id ? { ...q, status: newStatus } : q)
+    setProjectQueries((prev) =>
+      prev.map((q) => (q._id === id ? { ...q, status: newStatus } : q))
     );
 
   return (

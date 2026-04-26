@@ -15,7 +15,7 @@ import { homeData, aboutData } from '../config.js';
 const About = () => {
   const styles = useSelector((state) => state.theme.styles);
   const themeValues = useSelector((state) => state.theme);
-  console.log(aboutData)
+  console.log(aboutData);
 
   return (
     <>

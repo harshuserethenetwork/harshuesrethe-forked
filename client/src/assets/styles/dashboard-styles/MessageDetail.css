@@ -416,7 +416,9 @@
   border: 1px solid var(--border-light);
   background: var(--surface);
   text-decoration: none;
-  transition: background var(--transition), border-color var(--transition);
+  transition:
+    background var(--transition),
+    border-color var(--transition);
   max-width: 280px;
 }
 

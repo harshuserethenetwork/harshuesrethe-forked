@@ -43,8 +43,7 @@ const Footer = ({ projectCategory }) => {
       default:
         return '';
     }
-  }
-  
+  };
 
   return (
     <footer

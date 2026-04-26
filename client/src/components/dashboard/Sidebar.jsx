@@ -11,16 +11,28 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { LuMail, LuMenu, LuX, LuLayoutDashboard, LuUsers, LuStar, LuBadge } from 'react-icons/lu';
+import {
+  LuMail,
+  LuMenu,
+  LuX,
+  LuLayoutDashboard,
+  LuUsers,
+  LuStar,
+  LuBadge,
+} from 'react-icons/lu';
 
 const SIDEBAR_WIDTH = 220; // match your --sidebar-width CSS variable value
 
 const menuItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: <LuLayoutDashboard size={17} /> },
+  {
+    id: 'dashboard',
+    label: 'Dashboard',
+    icon: <LuLayoutDashboard size={17} />,
+  },
   { id: 'analytics', label: 'Analytics', icon: <LuBadge size={17} /> },
-  { id: 'clients',   label: 'Clients',   icon: <LuUsers size={17} /> },
-  { id: 'messages',  label: 'Messages',  icon: <LuMail size={17} /> },
-  { id: 'reviews',   label: 'Reviews',   icon: <LuStar size={17} /> },
+  { id: 'clients', label: 'Clients', icon: <LuUsers size={17} /> },
+  { id: 'messages', label: 'Messages', icon: <LuMail size={17} /> },
+  { id: 'reviews', label: 'Reviews', icon: <LuStar size={17} /> },
 ];
 
 const Sidebar = ({ activeTab, setActiveTab }) => {

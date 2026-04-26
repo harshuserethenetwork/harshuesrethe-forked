@@ -13,7 +13,7 @@ const AnimatedButton = ({
   isClassName,
   classMe,
   hyperLink,
-  isDisabled
+  isDisabled,
 }) => {
   const btnRef = useRef(null);
   const navigate = useNavigate();

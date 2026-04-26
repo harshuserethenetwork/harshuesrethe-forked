@@ -93,7 +93,6 @@
 }
 
 .faq-accordion-details {
-   
   background-color: transparent !important;
 }
 
@@ -103,7 +102,7 @@
   line-height: 1.6 !important;
   font-weight: 400 !important;
 }
- 
+
 /* Responsive Design */
 @media (max-width: 1200px) {
   .faq-section {

@@ -15,7 +15,7 @@ import {
   CircularProgress,
   Paper,
   IconButton,
-  Avatar
+  Avatar,
 } from '@mui/material';
 import {
   LuSparkle,
@@ -132,11 +132,18 @@ const textFieldSx = (styles) => ({
   '& .MuiOutlinedInput-root': {
     '& fieldset': { borderColor: styles?.mainTheme?.textFieldBorderColor },
     '&:hover fieldset': { borderColor: styles?.mainTheme?.highlightedColor },
-    '&.Mui-focused fieldset': { borderColor: styles?.mainTheme?.highlightedColor },
-    '& input, & textarea': { color: styles?.mainTheme?.color, fontSize: '14px' },
+    '&.Mui-focused fieldset': {
+      borderColor: styles?.mainTheme?.highlightedColor,
+    },
+    '& input, & textarea': {
+      color: styles?.mainTheme?.color,
+      fontSize: '14px',
+    },
   },
   '& .MuiInputLabel-root': { color: styles?.mainTheme?.textFieldBorderColor },
-  '& .MuiInputLabel-root.Mui-focused': { color: styles?.mainTheme?.highlightedColor },
+  '& .MuiInputLabel-root.Mui-focused': {
+    color: styles?.mainTheme?.highlightedColor,
+  },
   '& .MuiFormHelperText-root': { color: '#f44336' },
 });
 
@@ -157,8 +164,12 @@ const selectSx = (styles) => ({
 /* ──────────────── COMPONENT ──────────────── */
 
 const SmartContact = () => {
-  const createContact = useMutation(api.apis.post.insertSmartContact.createSmartContact);
-  const generateUploadUrl = useMutation(api.apis.post.generateUploadUrl.generateUploadUrl);
+  const createContact = useMutation(
+    api.apis.post.insertSmartContact.createSmartContact
+  );
+  const generateUploadUrl = useMutation(
+    api.apis.post.generateUploadUrl.generateUploadUrl
+  );
   const styles = useSelector((state) => state.theme.styles);
 
   const [activeStep, setActiveStep] = useState(0);
@@ -207,7 +218,13 @@ const SmartContact = () => {
     setErrMessage('');
     setFormData((prev) => ({
       ...prev,
-      uploadedFiles: [{ name: file.name, size: `${(file.size / 1024).toFixed(2)} KB`, type: file.type }],
+      uploadedFiles: [
+        {
+          name: file.name,
+          size: `${(file.size / 1024).toFixed(2)} KB`,
+          type: file.type,
+        },
+      ],
     }));
     e.target.value = '';
   }, []);
@@ -227,19 +244,25 @@ const SmartContact = () => {
       switch (step) {
         case 0:
           if (!formData.requestType) errs.requestType = 'Select a project type';
-          if (!formData.projectCategory) errs.projectCategory = 'Select a category';
+          if (!formData.projectCategory)
+            errs.projectCategory = 'Select a category';
           break;
         case 1:
           if (!formData.timeline) errs.timeline = 'Select a timeline';
           if (!formData.budget) errs.budget = 'Select a budget range';
           break;
         case 2:
-          if (!formData.fullName.trim()) errs.fullName = 'Full name is required';
+          if (!formData.fullName.trim())
+            errs.fullName = 'Full name is required';
           if (!formData.email.trim()) errs.email = 'Email is required';
-          else if (!/\S+@\S+\.\S+/.test(formData.email)) errs.email = 'Enter a valid email';
-          if (!formData.projectTitle.trim()) errs.projectTitle = 'Project title is required';
-          if (!formData.projectDescription.trim()) errs.projectDescription = 'Description is required';
-          else if (formData.projectDescription.trim().length < 20) errs.projectDescription = 'At least 20 characters';
+          else if (!/\S+@\S+\.\S+/.test(formData.email))
+            errs.email = 'Enter a valid email';
+          if (!formData.projectTitle.trim())
+            errs.projectTitle = 'Project title is required';
+          if (!formData.projectDescription.trim())
+            errs.projectDescription = 'Description is required';
+          else if (formData.projectDescription.trim().length < 20)
+            errs.projectDescription = 'At least 20 characters';
           break;
         case 3:
           break;
@@ -304,7 +327,13 @@ const SmartContact = () => {
       await createContact({
         attachments:
           formData.uploadedFiles?.length > 0
-            ? [{ file_name: formData.uploadedFiles[0].name, file_type: formData.uploadedFiles[0].type, file_url: storageId }]
+            ? [
+                {
+                  file_name: formData.uploadedFiles[0].name,
+                  file_type: formData.uploadedFiles[0].type,
+                  file_url: storageId,
+                },
+              ]
             : [],
         budget: formData.budget,
         client_info: {
@@ -320,7 +349,10 @@ const SmartContact = () => {
       });
       setIsSubmitted(true);
     } catch (error) {
-      setErrMessage({ type: 'error', data: error.message || 'Something went wrong' });
+      setErrMessage({
+        type: 'error',
+        data: error.message || 'Something went wrong',
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -351,14 +383,24 @@ const SmartContact = () => {
       case 0:
         return (
           <>
-            <Typography className="sc-step-title" sx={{ color: styles?.mainTheme?.color }}>
+            <Typography
+              className="sc-step-title"
+              sx={{ color: styles?.mainTheme?.color }}
+            >
               What kind of work are you looking for?
             </Typography>
 
             <Box className="sc-fields-grid">
               {/* Project Type */}
               <FormControl fullWidth error={!!errors.requestType}>
-                <InputLabel sx={{ color: styles?.mainTheme?.textFieldBorderColor, '&.Mui-focused': { color: styles?.mainTheme?.highlightedColor } }}>
+                <InputLabel
+                  sx={{
+                    color: styles?.mainTheme?.textFieldBorderColor,
+                    '&.Mui-focused': {
+                      color: styles?.mainTheme?.highlightedColor,
+                    },
+                  }}
+                >
                   Project Type
                 </InputLabel>
                 <Select
@@ -366,7 +408,9 @@ const SmartContact = () => {
                   label="Project Type"
                   onChange={handleChange('requestType')}
                   sx={selectSx(styles)}
-                  MenuProps={selectMenuProps(styles?.mainTheme?.profileCardBackground)}
+                  MenuProps={selectMenuProps(
+                    styles?.mainTheme?.profileCardBackground
+                  )}
                 >
                   {REQUEST_TYPES.map((opt) => (
                     <MenuItem key={opt.value} value={opt.value}>
@@ -375,13 +419,29 @@ const SmartContact = () => {
                   ))}
                 </Select>
                 {errors.requestType && (
-                  <Typography sx={{ color: '#f44336', fontSize: '12px', mt: '6px', ml: '14px' }}>{errors.requestType}</Typography>
+                  <Typography
+                    sx={{
+                      color: '#f44336',
+                      fontSize: '12px',
+                      mt: '6px',
+                      ml: '14px',
+                    }}
+                  >
+                    {errors.requestType}
+                  </Typography>
                 )}
               </FormControl>
 
               {/* Category */}
               <FormControl fullWidth error={!!errors.projectCategory}>
-                <InputLabel sx={{ color: styles?.mainTheme?.textFieldBorderColor, '&.Mui-focused': { color: styles?.mainTheme?.highlightedColor } }}>
+                <InputLabel
+                  sx={{
+                    color: styles?.mainTheme?.textFieldBorderColor,
+                    '&.Mui-focused': {
+                      color: styles?.mainTheme?.highlightedColor,
+                    },
+                  }}
+                >
                   Service Category
                 </InputLabel>
                 <Select
@@ -389,7 +449,9 @@ const SmartContact = () => {
                   label="Service Category"
                   onChange={handleChange('projectCategory')}
                   sx={selectSx(styles)}
-                  MenuProps={selectMenuProps(styles?.mainTheme?.profileCardBackground)}
+                  MenuProps={selectMenuProps(
+                    styles?.mainTheme?.profileCardBackground
+                  )}
                 >
                   {PROJECT_CATEGORIES.map((opt) => (
                     <MenuItem key={opt.value} value={opt.value}>
@@ -398,7 +460,16 @@ const SmartContact = () => {
                   ))}
                 </Select>
                 {errors.projectCategory && (
-                  <Typography sx={{ color: '#f44336', fontSize: '12px', mt: '6px', ml: '14px' }}>{errors.projectCategory}</Typography>
+                  <Typography
+                    sx={{
+                      color: '#f44336',
+                      fontSize: '12px',
+                      mt: '6px',
+                      ml: '14px',
+                    }}
+                  >
+                    {errors.projectCategory}
+                  </Typography>
                 )}
               </FormControl>
             </Box>
@@ -409,13 +480,23 @@ const SmartContact = () => {
       case 1:
         return (
           <>
-            <Typography className="sc-step-title" sx={{ color: styles?.mainTheme?.color }}>
+            <Typography
+              className="sc-step-title"
+              sx={{ color: styles?.mainTheme?.color }}
+            >
               Timeline & Budget
             </Typography>
 
             <Box className="sc-fields-grid">
               <FormControl fullWidth error={!!errors.timeline}>
-                <InputLabel sx={{ color: styles?.mainTheme?.textFieldBorderColor, '&.Mui-focused': { color: styles?.mainTheme?.highlightedColor } }}>
+                <InputLabel
+                  sx={{
+                    color: styles?.mainTheme?.textFieldBorderColor,
+                    '&.Mui-focused': {
+                      color: styles?.mainTheme?.highlightedColor,
+                    },
+                  }}
+                >
                   Preferred Timeline
                 </InputLabel>
                 <Select
@@ -423,7 +504,9 @@ const SmartContact = () => {
                   label="Preferred Timeline"
                   onChange={handleChange('timeline')}
                   sx={selectSx(styles)}
-                  MenuProps={selectMenuProps(styles?.mainTheme?.profileCardBackground)}
+                  MenuProps={selectMenuProps(
+                    styles?.mainTheme?.profileCardBackground
+                  )}
                 >
                   {TIMELINES.map((opt) => (
                     <MenuItem key={opt.value} value={opt.value}>
@@ -432,12 +515,28 @@ const SmartContact = () => {
                   ))}
                 </Select>
                 {errors.timeline && (
-                  <Typography sx={{ color: '#f44336', fontSize: '12px', mt: '6px', ml: '14px' }}>{errors.timeline}</Typography>
+                  <Typography
+                    sx={{
+                      color: '#f44336',
+                      fontSize: '12px',
+                      mt: '6px',
+                      ml: '14px',
+                    }}
+                  >
+                    {errors.timeline}
+                  </Typography>
                 )}
               </FormControl>
 
               <FormControl fullWidth error={!!errors.budget}>
-                <InputLabel sx={{ color: styles?.mainTheme?.textFieldBorderColor, '&.Mui-focused': { color: styles?.mainTheme?.highlightedColor } }}>
+                <InputLabel
+                  sx={{
+                    color: styles?.mainTheme?.textFieldBorderColor,
+                    '&.Mui-focused': {
+                      color: styles?.mainTheme?.highlightedColor,
+                    },
+                  }}
+                >
                   Budget Range
                 </InputLabel>
                 <Select
@@ -445,7 +544,9 @@ const SmartContact = () => {
                   label="Budget Range"
                   onChange={handleChange('budget')}
                   sx={selectSx(styles)}
-                  MenuProps={selectMenuProps(styles?.mainTheme?.profileCardBackground)}
+                  MenuProps={selectMenuProps(
+                    styles?.mainTheme?.profileCardBackground
+                  )}
                 >
                   {BUDGET_RANGES.map((opt) => (
                     <MenuItem key={opt.value} value={opt.value}>
@@ -454,7 +555,16 @@ const SmartContact = () => {
                   ))}
                 </Select>
                 {errors.budget && (
-                  <Typography sx={{ color: '#f44336', fontSize: '12px', mt: '6px', ml: '14px' }}>{errors.budget}</Typography>
+                  <Typography
+                    sx={{
+                      color: '#f44336',
+                      fontSize: '12px',
+                      mt: '6px',
+                      ml: '14px',
+                    }}
+                  >
+                    {errors.budget}
+                  </Typography>
                 )}
               </FormControl>
             </Box>
@@ -465,7 +575,10 @@ const SmartContact = () => {
       case 2:
         return (
           <>
-            <Typography className="sc-step-title" sx={{ color: styles?.mainTheme?.color }}>
+            <Typography
+              className="sc-step-title"
+              sx={{ color: styles?.mainTheme?.color }}
+            >
               Tell us about yourself & your project
             </Typography>
 
@@ -482,7 +595,11 @@ const SmartContact = () => {
                 sx={textFieldSx(styles)}
                 InputProps={{
                   startAdornment: (
-                    <LuUser style={{ marginRight: 10, opacity: 0.5, flexShrink: 0 }} color={styles?.mainTheme?.color} size={16} />
+                    <LuUser
+                      style={{ marginRight: 10, opacity: 0.5, flexShrink: 0 }}
+                      color={styles?.mainTheme?.color}
+                      size={16}
+                    />
                   ),
                 }}
               />
@@ -500,7 +617,11 @@ const SmartContact = () => {
                 sx={textFieldSx(styles)}
                 InputProps={{
                   startAdornment: (
-                    <LuMail style={{ marginRight: 10, opacity: 0.5, flexShrink: 0 }} color={styles?.mainTheme?.color} size={16} />
+                    <LuMail
+                      style={{ marginRight: 10, opacity: 0.5, flexShrink: 0 }}
+                      color={styles?.mainTheme?.color}
+                      size={16}
+                    />
                   ),
                 }}
               />
@@ -518,7 +639,11 @@ const SmartContact = () => {
                   sx={textFieldSx(styles)}
                   InputProps={{
                     startAdornment: (
-                      <LuPenLine style={{ marginRight: 10, opacity: 0.5, flexShrink: 0 }} color={styles?.mainTheme?.color} size={16} />
+                      <LuPenLine
+                        style={{ marginRight: 10, opacity: 0.5, flexShrink: 0 }}
+                        color={styles?.mainTheme?.color}
+                        size={16}
+                      />
                     ),
                   }}
                 />
@@ -536,12 +661,15 @@ const SmartContact = () => {
                   rows={4}
                   error={!!errors.projectDescription}
                   helperText={
-                    errors.projectDescription || `${formData.projectDescription.length} / 20 characters min`
+                    errors.projectDescription ||
+                    `${formData.projectDescription.length} / 20 characters min`
                   }
                   sx={{
                     ...textFieldSx(styles),
                     '& .MuiFormHelperText-root': {
-                      color: errors.projectDescription ? '#f44336' : 'rgba(255,255,255,0.35)',
+                      color: errors.projectDescription
+                        ? '#f44336'
+                        : 'rgba(255,255,255,0.35)',
                     },
                   }}
                 />
@@ -554,9 +682,15 @@ const SmartContact = () => {
       case 3:
         return (
           <>
-            <Typography className="sc-step-title" sx={{ color: styles?.mainTheme?.color }}>
+            <Typography
+              className="sc-step-title"
+              sx={{ color: styles?.mainTheme?.color }}
+            >
               Upload relevant files&nbsp;
-              <Typography component="span" sx={{ opacity: 0.45, fontSize: '13px' }}>
+              <Typography
+                component="span"
+                sx={{ opacity: 0.45, fontSize: '13px' }}
+              >
                 (optional)
               </Typography>
             </Typography>
@@ -573,11 +707,25 @@ const SmartContact = () => {
                 style={{ display: 'none' }}
                 accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg"
               />
-              <LuCloudUpload size={36} color={styles?.mainTheme?.highlightedColor} />
-              <Typography sx={{ color: styles?.mainTheme?.color, fontSize: '14px', fontWeight: 500 }}>
+              <LuCloudUpload
+                size={36}
+                color={styles?.mainTheme?.highlightedColor}
+              />
+              <Typography
+                sx={{
+                  color: styles?.mainTheme?.color,
+                  fontSize: '14px',
+                  fontWeight: 500,
+                }}
+              >
                 Click to upload
               </Typography>
-              <Typography sx={{ color: styles?.mainTheme?.textFieldBorderColor, fontSize: '12px' }}>
+              <Typography
+                sx={{
+                  color: styles?.mainTheme?.textFieldBorderColor,
+                  fontSize: '12px',
+                }}
+              >
                 PDF, DOC, TXT, PNG, JPG — max 10 MB
               </Typography>
             </Box>
@@ -591,18 +739,46 @@ const SmartContact = () => {
                   border: `1px solid ${styles?.mainTheme?.textFieldBorderColor}`,
                 }}
               >
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px', overflow: 'hidden' }}>
-                  <LuFileText size={18} color={styles?.mainTheme?.highlightedColor} />
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <LuFileText
+                    size={18}
+                    color={styles?.mainTheme?.highlightedColor}
+                  />
                   <Box>
-                    <Typography sx={{ color: styles?.mainTheme?.color, fontSize: '13px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '240px' }}>
+                    <Typography
+                      sx={{
+                        color: styles?.mainTheme?.color,
+                        fontSize: '13px',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        maxWidth: '240px',
+                      }}
+                    >
                       {file.name}
                     </Typography>
-                    <Typography sx={{ color: styles?.mainTheme?.textFieldBorderColor, fontSize: '11px' }}>
+                    <Typography
+                      sx={{
+                        color: styles?.mainTheme?.textFieldBorderColor,
+                        fontSize: '11px',
+                      }}
+                    >
                       {file.size}
                     </Typography>
                   </Box>
                 </Box>
-                <IconButton size="small" onClick={() => removeFile(idx)} sx={{ color: '#f44336' }}>
+                <IconButton
+                  size="small"
+                  onClick={() => removeFile(idx)}
+                  sx={{ color: '#f44336' }}
+                >
                   <LuX size={16} />
                 </IconButton>
               </Paper>
@@ -619,19 +795,43 @@ const SmartContact = () => {
 
   if (isSubmitted) {
     return (
-      <Box className="sc-root" sx={{ background: styles?.mainTheme?.backgroundColor }}>
+      <Box
+        className="sc-root"
+        sx={{ background: styles?.mainTheme?.backgroundColor }}
+      >
         <Paper
           className="sc-panel"
           elevation={0}
-          sx={{ background: styles?.mainTheme?.backgroundColor, justifyContent: 'center' }}
+          sx={{
+            background: styles?.mainTheme?.backgroundColor,
+            justifyContent: 'center',
+          }}
         >
           <Box className="sc-success">
-            <LuCircleCheckBig className="sc-success-icon" size={64} color={styles?.mainTheme?.highlightedColor} />
-            <Typography sx={{ color: styles?.mainTheme?.color, fontSize: '28px', fontWeight: 700 }}>
+            <LuCircleCheckBig
+              className="sc-success-icon"
+              size={64}
+              color={styles?.mainTheme?.highlightedColor}
+            />
+            <Typography
+              sx={{
+                color: styles?.mainTheme?.color,
+                fontSize: '28px',
+                fontWeight: 700,
+              }}
+            >
               Thank You!
             </Typography>
-            <Typography sx={{ color: styles?.mainTheme?.textFieldBorderColor, fontSize: '15px', lineHeight: 1.7, maxWidth: 420 }}>
-              Your inquiry has been submitted. I'll review your request and get back to you within 24-48 hours.
+            <Typography
+              sx={{
+                color: styles?.mainTheme?.textFieldBorderColor,
+                fontSize: '15px',
+                lineHeight: 1.7,
+                maxWidth: 420,
+              }}
+            >
+              Your inquiry has been submitted. I'll review your request and get
+              back to you within 24-48 hours.
             </Typography>
             <Box sx={{ mt: 2 }}>
               <AnimatedButton
@@ -651,7 +851,10 @@ const SmartContact = () => {
   /* ──────────────── MAIN RENDER ──────────────── */
 
   return (
-    <Box className="sc-root" sx={{ background: styles?.mainTheme?.backgroundColor }}>
+    <Box
+      className="sc-root"
+      sx={{ background: styles?.mainTheme?.backgroundColor }}
+    >
       <Paper
         className="sc-panel"
         elevation={0}
@@ -661,7 +864,10 @@ const SmartContact = () => {
         <Box className="sc-header">
           <Box className="sc-title-row">
             <LuSparkle color={styles?.mainTheme?.highlightedColor} size={16} />
-            <Typography className="sc-subtitle" sx={{ color: styles?.mainTheme?.highlightedColor }}>
+            <Typography
+              className="sc-subtitle"
+              sx={{ color: styles?.mainTheme?.highlightedColor }}
+            >
               <ShinyText
                 text="START A PROJECT"
                 disabled={false}
@@ -672,7 +878,10 @@ const SmartContact = () => {
             </Typography>
           </Box>
 
-          <Typography className="sc-heading" sx={{ color: styles?.mainTheme?.color }}>
+          <Typography
+            className="sc-heading"
+            sx={{ color: styles?.mainTheme?.color }}
+          >
             Let's build something great together
           </Typography>
 
@@ -682,12 +891,26 @@ const SmartContact = () => {
             alternativeLabel
             sx={{
               mb: '4px',
-              '& .MuiStepLabel-root .Mui-completed': { color: styles?.mainTheme?.highlightedColor },
-              '& .MuiStepLabel-root .Mui-active': { color: styles?.mainTheme?.highlightedColor },
-              '& .MuiStepLabel-label': { color: styles?.mainTheme?.textFieldBorderColor, fontSize: '12px' },
-              '& .MuiStepLabel-label.Mui-active': { color: styles?.mainTheme?.color, fontWeight: 600 },
-              '& .MuiStepLabel-label.Mui-completed': { color: styles?.mainTheme?.color },
-              '& .MuiStepConnector-line': { borderColor: styles?.mainTheme?.textFieldBorderColor },
+              '& .MuiStepLabel-root .Mui-completed': {
+                color: styles?.mainTheme?.highlightedColor,
+              },
+              '& .MuiStepLabel-root .Mui-active': {
+                color: styles?.mainTheme?.highlightedColor,
+              },
+              '& .MuiStepLabel-label': {
+                color: styles?.mainTheme?.textFieldBorderColor,
+                fontSize: '12px',
+              },
+              '& .MuiStepLabel-label.Mui-active': {
+                color: styles?.mainTheme?.color,
+                fontWeight: 600,
+              },
+              '& .MuiStepLabel-label.Mui-completed': {
+                color: styles?.mainTheme?.color,
+              },
+              '& .MuiStepConnector-line': {
+                borderColor: styles?.mainTheme?.textFieldBorderColor,
+              },
             }}
           >
             {STEPS.map((label) => (
@@ -706,7 +929,9 @@ const SmartContact = () => {
               height: '4px',
               borderRadius: '2px',
               bgcolor: 'rgba(255,255,255,0.06)',
-              '& .MuiLinearProgress-bar': { bgcolor: styles?.mainTheme?.highlightedColor },
+              '& .MuiLinearProgress-bar': {
+                bgcolor: styles?.mainTheme?.highlightedColor,
+              },
             }}
           />
         </Box>
@@ -751,15 +976,25 @@ const SmartContact = () => {
             Back
           </Button>
 
-          <Typography className="sc-footer-info" sx={{ color: styles?.mainTheme?.textFieldBorderColor }}>
+          <Typography
+            className="sc-footer-info"
+            sx={{ color: styles?.mainTheme?.textFieldBorderColor }}
+          >
             Step {activeStep + 1} of {STEPS.length}
           </Typography>
 
           {activeStep === STEPS.length - 1 ? (
             isSubmitting ? (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Typography sx={{ color: styles?.mainTheme?.color, fontSize: '13px' }}>Submitting</Typography>
-                <CircularProgress size={18} sx={{ color: styles?.mainTheme?.highlightedColor }} />
+                <Typography
+                  sx={{ color: styles?.mainTheme?.color, fontSize: '13px' }}
+                >
+                  Submitting
+                </Typography>
+                <CircularProgress
+                  size={18}
+                  sx={{ color: styles?.mainTheme?.highlightedColor }}
+                />
               </Box>
             ) : (
               <Button
@@ -774,7 +1009,10 @@ const SmartContact = () => {
                   color: '#000',
                   fontWeight: 600,
                   px: '22px',
-                  '&:hover': { bgcolor: styles?.mainTheme?.highlightedColor, opacity: 0.9 },
+                  '&:hover': {
+                    bgcolor: styles?.mainTheme?.highlightedColor,
+                    opacity: 0.9,
+                  },
                 }}
               >
                 Submit
@@ -792,8 +1030,14 @@ const SmartContact = () => {
                 bgcolor: styles?.mainTheme?.highlightedColor,
                 color: styles?.mainTheme?.color,
                 px: '22px',
-                '&:hover': { bgcolor: styles?.mainTheme?.highlightedColor, opacity: 0.9 },
-                '&.Mui-disabled': { bgcolor: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.25)' },
+                '&:hover': {
+                  bgcolor: styles?.mainTheme?.highlightedColor,
+                  opacity: 0.9,
+                },
+                '&.Mui-disabled': {
+                  bgcolor: 'rgba(255,255,255,0.08)',
+                  color: 'rgba(255,255,255,0.25)',
+                },
               }}
             >
               Next
@@ -849,9 +1093,9 @@ const SmartContact = () => {
           />
 
           <Typography className="profile-description">
-            My inbox is always open. Whether you have a project or just want
-            to say Hi. I would love to hear from you. Feel free to contact me
-            and I'll get back to you.
+            My inbox is always open. Whether you have a project or just want to
+            say Hi. I would love to hear from you. Feel free to contact me and
+            I'll get back to you.
           </Typography>
 
           {/* Let's Discuss Your Project */}

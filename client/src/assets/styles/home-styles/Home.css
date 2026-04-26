@@ -47,8 +47,8 @@
   cursor: pointer;
 }
 .split-parent {
-    padding-bottom: 10px;
-  }
+  padding-bottom: 10px;
+}
 
 @keyframes wave {
   0% {
