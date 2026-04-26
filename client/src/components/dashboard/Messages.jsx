@@ -38,7 +38,8 @@ const Messages = ({
   onDeleteDirect,
   onDeleteProject,
   onUpdateStatus,
-  markAsRead
+  markAsReadSmartContact,
+  markAsReadCasualContact,
 }) => {
   const [activeTab, setActiveTab] = useState('all');
   const [selected, setSelected] = useState(null); // null = list view; row = detail view
@@ -162,9 +163,13 @@ const Messages = ({
   /* ── Detail view callbacks ── */
   const handleOpenDetail = async (row) => {
     setSelected(row);
-    const response = await markAsRead({ id: row._id })
-
-
+    if (row.raw.tag === 'smart') {
+      markAsReadSmartContact({ id: row._id });
+    } else if (row.raw.tag === 'casual') {
+      markAsReadCasualContact({ id: row._id });
+    } else {
+      throw new Error('Something went wrong while opening the message');
+    }
   };
   const handleCloseDetail = () => setSelected(null);
   const handleDetailDelete = (row) => {
@@ -177,10 +182,10 @@ const Messages = ({
     setSelected((prev) =>
       prev && prev._id === id
         ? {
-          ...prev,
-          status: newStatus,
-          raw: { ...prev.raw, status: newStatus },
-        }
+            ...prev,
+            status: newStatus,
+            raw: { ...prev.raw, status: newStatus },
+          }
         : prev
     );
   };

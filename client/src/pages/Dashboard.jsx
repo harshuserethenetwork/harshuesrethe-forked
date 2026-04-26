@@ -26,7 +26,12 @@ const Dashboard = () => {
     { initialNumItems: 10 }
   );
 
-  const markAsRead = useMutation(api.apis.post.readMessage.markAsRead);
+  const markAsReadSmartContact = useMutation(
+    api.apis.post.readMessage.markAsReadSmartContact
+  );
+  const markAsReadCasualContact = useMutation(
+    api.apis.post.readMesssageCasual.markAsReadCasualContact
+  );
 
   const [activeTab, setActiveTab] = useState('messages');
   const [directContacts, setDirectContacts] = useState([]);
@@ -65,7 +70,8 @@ const Dashboard = () => {
             onDeleteDirect={handleDeleteDirect}
             onDeleteProject={handleDeleteProject}
             onUpdateStatus={handleUpdateStatus}
-            markAsRead={markAsRead}
+            markAsReadSmartContact={markAsReadSmartContact}
+            markAsReadCasualContact={markAsReadCasualContact}
           />
         )}
 

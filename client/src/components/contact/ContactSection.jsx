@@ -47,6 +47,8 @@ const ContactSection = ({ handleDiscussProjectButton }) => {
         fullname: formData.fullName,
         email: formData.email,
         message: formData.message,
+        read_at: null,
+        tag: 'casual',
       });
       setMsg({
         data: 'Your message has been sent successfully. I’ll review it and get back to you within 24 hours. Thank you for your patience',
