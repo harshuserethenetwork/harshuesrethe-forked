@@ -9,15 +9,6 @@ import AnimatedButton from '../shared/AnimatedButton';
 const Footer = ({ projectCategory }) => {
   const styles = useSelector((state) => state.theme.styles);
 
-  const handleContactClick = () => {
-    // Add your contact action here
-    console.log('Contact button clicked');
-  };
-
-  const handleShoppingBagClick = () => {
-    // Add your shopping bag action here
-    console.log('Shopping bag clicked');
-  };
   const btnRef = useRef(null);
 
   const onEnter = () => {

@@ -1,9 +1,9 @@
 import { mutation } from '../../_generated/server';
 import { v } from 'convex/values';
 
-export const markAsReadSmartContact = mutation({
+export const markAsReadCasualContact = mutation({
   args: {
-    id: v.id('smart_contact'),
+    id: v.id('casual_contact'),
   },
   handler: async (ctx, args) => {
     const doc = await ctx.db.get(args.id);

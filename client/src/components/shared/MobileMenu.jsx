@@ -17,7 +17,6 @@ const MobileMenu = () => {
   const location = useLocation();
   const [value, setValue] = React.useState(location.pathname);
   const styles = useSelector((state) => state.theme.styles);
-  console.log(styles?.mainTheme?.mobileMenuLableActive);
 
   // Update the BottomNavigation value when the route changes
   React.useEffect(() => {

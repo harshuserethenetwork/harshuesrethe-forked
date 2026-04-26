@@ -31,8 +31,7 @@ const STATUS_OPTIONS = ['new', 'priority', 'in progress', 'done', 'ignored'];
  *   onUpdateStatus  – fn(id, status)
  */
 const MessageDetail = ({ message, onBack, onDelete, onUpdateStatus }) => {
-  if (!message) return null;
-  console.log(message);
+  if (!message) return null; y
   /* ── Helpers ── */
   const formatFull = (ts) => {
     if (!ts) return '';
@@ -79,8 +78,8 @@ const MessageDetail = ({ message, onBack, onDelete, onUpdateStatus }) => {
     message.type === 'direct'
       ? message.raw.message?.split(' ').slice(0, 7).join(' ') || 'No Subject'
       : message.raw.client_info?.prj_title ||
-        message.raw.prj_type ||
-        'Project Query';
+      message.raw.prj_type ||
+      'Project Query';
 
   /* ─────────────────────────────────────────────── */
   return (

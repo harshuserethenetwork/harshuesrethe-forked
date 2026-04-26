@@ -20,5 +20,6 @@ export const smart_contact = defineTable({
   prj_type: v.string(),
   status: v.string(),
   timeline: v.string(),
-  read_at: v.optional(v.union(v.string(), v.null()))
+  read_at: v.optional(v.union(v.string(), v.null())),
+  tag: v.optional(v.string()),
 });
