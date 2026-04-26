@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material';
 import Sidebar from '../components/dashboard/Sidebar.jsx';
 import Messages from '../components/dashboard/Messages.jsx';
 import '../assets/styles/dashboard-styles/Dashboard.css';
-import { useQuery, usePaginatedQuery } from 'convex/react';
+import { useQuery, usePaginatedQuery, useMutation } from 'convex/react';
 import { api } from '../../convex/_generated/api.js';
 
 const Dashboard = () => {
@@ -25,6 +25,8 @@ const Dashboard = () => {
     {},
     { initialNumItems: 10 }
   );
+
+  const markAsRead = useMutation(api.apis.post.readMessage.markAsRead);
 
   const [activeTab, setActiveTab] = useState('messages');
   const [directContacts, setDirectContacts] = useState([]);
@@ -63,6 +65,7 @@ const Dashboard = () => {
             onDeleteDirect={handleDeleteDirect}
             onDeleteProject={handleDeleteProject}
             onUpdateStatus={handleUpdateStatus}
+            markAsRead={markAsRead}
           />
         )}
 
