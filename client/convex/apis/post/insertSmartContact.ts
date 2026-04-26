@@ -24,6 +24,7 @@ export const createSmartContact = mutation({
     prj_type: v.string(),
     status: v.string(),
     timeline: v.string(),
+    read_at: v.optional(v.union(v.string(), v.null())),
   },
 
   handler: async (ctx, args) => {

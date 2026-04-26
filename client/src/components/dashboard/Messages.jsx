@@ -38,6 +38,7 @@ const Messages = ({
   onDeleteDirect,
   onDeleteProject,
   onUpdateStatus,
+  markAsRead
 }) => {
   const [activeTab, setActiveTab] = useState('all');
   const [selected, setSelected] = useState(null); // null = list view; row = detail view
@@ -159,9 +160,11 @@ const Messages = ({
   };
 
   /* ── Detail view callbacks ── */
-  const handleOpenDetail = (row) => {
+  const handleOpenDetail = async (row) => {
     setSelected(row);
-    console.log(row);
+    const response = await markAsRead({ id: row._id })
+
+
   };
   const handleCloseDetail = () => setSelected(null);
   const handleDetailDelete = (row) => {
@@ -174,10 +177,10 @@ const Messages = ({
     setSelected((prev) =>
       prev && prev._id === id
         ? {
-            ...prev,
-            status: newStatus,
-            raw: { ...prev.raw, status: newStatus },
-          }
+          ...prev,
+          status: newStatus,
+          raw: { ...prev.raw, status: newStatus },
+        }
         : prev
     );
   };
@@ -299,12 +302,12 @@ const Messages = ({
           ) : (
             <ul className="msg-list">
               {pageRows.map((row, idx) => {
-                const isUnread = idx === 0 && currentPage === 1;
+                const isUnread = row.raw.read_at;
                 const slug = slugStatus(row.status);
                 return (
                   <li
                     key={row._id}
-                    className={['msg-row', isUnread ? 'unread' : '']
+                    className={['msg-row', isUnread === null ? 'unread' : '']
                       .filter(Boolean)
                       .join(' ')}
                     onClick={() => handleOpenDetail(row)}
