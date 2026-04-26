@@ -31,7 +31,7 @@ const STATUS_OPTIONS = ['new', 'priority', 'in progress', 'done', 'ignored'];
  *   onUpdateStatus  – fn(id, status)
  */
 const MessageDetail = ({ message, onBack, onDelete, onUpdateStatus }) => {
-  if (!message) return null; y
+  if (!message) return null;
   /* ── Helpers ── */
   const formatFull = (ts) => {
     if (!ts) return '';
