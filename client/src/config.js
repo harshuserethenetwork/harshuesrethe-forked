@@ -251,12 +251,12 @@ const projectsData = [
   },
   {
     id: 4,
-    title: 'CricJadoo',
+    title: 'CricMagic',
     category: 'development',
     date: '2023',
-    link: 'https://github.com/HarshUserethe/Cricwww',
+    link: 'https://github.com/HarshUserethe/CricMagic-NextJS',
     image:
-      'https://res.cloudinary.com/da6pzcqcw/image/upload/v1777056864/PRJ008_ofkrv2.png', // Replace with your actual image path
+      'https://res.cloudinary.com/da6pzcqcw/image/upload/v1777277152/PROJ008_wimuuh.png', // Replace with your actual image path
   },
   {
     id: 5,
