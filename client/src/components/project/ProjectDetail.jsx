@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { projectsData } from '../../config';
 import Footer from '../home/Footer';
 import Disclaimer from './Disclaimer';
@@ -31,12 +32,12 @@ function useIsMobile(breakpoint = 640) {
 // ─────────────────────────────────────────────────────────────
 
 const S = {
-  page: {
-    background: '#0b0b0f',
-    color: '#e8e8f0',
+  page: (mode) => ({
+    background: mode === 'light' ? '#f7f9fa' : '#0b0b0f',
+    color: mode === 'light' ? '#0b0b0f' : '#e8e8f0',
     minHeight: '100vh',
     WebkitFontSmoothing: 'antialiased',
-  },
+  }),
 
   // Wider container — 1200px max, tighter horizontal padding
   container: (mobile) => ({
@@ -95,23 +96,30 @@ const S = {
     return { m, label: m.label };
   },
 
-  yearLabel: { fontSize: 12, color: '#7a7a90', fontWeight: 500 },
+  yearLabel: (mode) => ({
+    fontSize: 12,
+    color: mode === 'light' ? '#6b6b7b' : '#7a7a90',
+    fontWeight: 500,
+  }),
 
-  h1: (mobile) => ({
+  h1: (mobile, mode) => ({
     fontSize: mobile ? 'clamp(28px, 8vw, 40px)' : 'clamp(34px, 5vw, 58px)',
     fontWeight: 600,
     lineHeight: 1.5,
     letterSpacing: '-.025em',
-    background: 'linear-gradient(130deg, #ffffff 20%, #a89bf7 100%)',
+    background:
+      mode === 'light'
+        ? 'linear-gradient(130deg, #0b0b0f 20%, #7c6ef7 100%)'
+        : 'linear-gradient(130deg, #ffffff 20%, #a89bf7 100%)',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
     backgroundClip: 'text',
     margin: '0 0 12px',
   }),
 
-  tagline: (mobile) => ({
+  tagline: (mobile, mode) => ({
     fontSize: mobile ? 14 : 16,
-    color: '#7a7a90',
+    color: mode === 'light' ? '#6b6b7b' : '#7a7a90',
     fontWeight: 300,
     maxWidth: '100%',
     margin: '0 0 22px',
@@ -119,16 +127,19 @@ const S = {
   }),
 
   tagRow: { display: 'flex', flexWrap: 'wrap', gap: 7, marginBottom: 26 },
-  tag: {
+  tag: (mode) => ({
     padding: '4px 11px',
     borderRadius: 5,
     fontSize: 11,
     fontWeight: 600,
     letterSpacing: '.05em',
-    background: 'rgba(124,110,247,.1)',
-    border: '1px solid rgba(124,110,247,.2)',
-    color: '#a89bf7',
-  },
+    background: mode === 'light' ? 'rgba(124,110,247,.08)' : 'rgba(124,110,247,.1)',
+    border:
+      mode === 'light'
+        ? '1px solid rgba(124,110,247,.22)'
+        : '1px solid rgba(124,110,247,.2)',
+    color: mode === 'light' ? '#5b4bb3' : '#a89bf7',
+  }),
 
   // ── Buttons — compact & professional ─────────
   actions: (mobile) => ({
@@ -154,7 +165,7 @@ const S = {
     cursor: 'pointer',
     boxShadow: '0 2px 10px rgba(124,110,247,.3)',
   },
-  btnGhost: {
+  btnGhost: (mode) => ({
     display: 'inline-flex',
     alignItems: 'center',
     gap: 6,
@@ -165,11 +176,12 @@ const S = {
     letterSpacing: '.03em',
     textDecoration: 'none',
     background: 'transparent',
-    color: '#c5c5d8',
-    border: '1px solid rgba(255,255,255,.14)',
+    color: mode === 'light' ? '#fff' : '#c5c5d8',
+    border: mode === 'light' ? '1px solid #0b0b0f' : '1px solid rgba(255,255,255,.14)',
     cursor: 'pointer',
-  },
-  btnCoffee: {
+    backgroundColor: mode === 'light' ? '#0b0b0f' : 'transparent',
+  }),
+  btnCoffee: (mode) => ({
     display: 'inline-flex',
     alignItems: 'center',
     gap: 6,
@@ -179,17 +191,17 @@ const S = {
     fontWeight: 600,
     letterSpacing: '.03em',
     textDecoration: 'none',
-    background: 'rgba(255,209,102,.08)',
-    color: '#ffd166',
-    border: '1px solid rgba(255,209,102,.2)',
+    background: mode === 'light' ? '#ffd166' : 'rgba(255,209,102,.08)',
+    color: mode === 'light' ? '#0b0b0f' : '#ffd166',
+    border: mode === 'light' ? '1px solid rgba(255,209,102,.55)' : '1px solid rgba(255,209,102,.2)',
     cursor: 'pointer',
-  },
+  }),
 
-  divider: {
+  divider: (mode) => ({
     height: 1,
-    background: 'rgba(255,255,255,.07)',
+    background: mode === 'light' ? 'rgba(0,0,0,.08)' : 'rgba(255,255,255,.07)',
     margin: '0 0 40px',
-  },
+  }),
 
   heroShot: {
     borderRadius: 14,
@@ -240,25 +252,26 @@ const S = {
     alignItems: 'center',
     gap: 12,
   },
-  sectionLine: {
+  sectionLine: (mode) => ({
     flex: 1,
     height: 1,
-    background: 'rgba(255,255,255,.07)',
+    background: mode === 'light' ? 'rgba(0,0,0,.08)' : 'rgba(255,255,255,.07)',
     maxWidth: 80,
-  },
-  descPara: (mobile) => ({
+  }),
+  descPara: (mobile, mode) => ({
     fontSize: mobile ? 14 : 16,
-    color: 'rgba(232,232,240,.78)',
+    color: mode === 'light' ? 'rgba(0,0,0,.62)' : 'rgba(232,232,240,.78)',
     lineHeight: 1.82,
     fontWeight: 300,
     maxWidth: 720,
   }),
 
-  footer: {
-    borderTop: '1px solid rgba(255,255,255,.07)',
+  footer: (mode) => ({
+    borderTop:
+      mode === 'light' ? '1px solid rgba(0,0,0,.08)' : '1px solid rgba(255,255,255,.07)',
     padding: '30px 0',
     marginTop: 16,
-  },
+  }),
   footerInner: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -266,7 +279,10 @@ const S = {
     flexWrap: 'wrap',
     gap: 10,
   },
-  footerText: { fontSize: 12, color: '#7a7a90' },
+  footerText: (mode) => ({
+    fontSize: 12,
+    color: mode === 'light' ? '#6b6b7b' : '#7a7a90',
+  }),
 
   lightboxBg: {
     position: 'fixed',
@@ -311,7 +327,12 @@ const S = {
     textAlign: 'center',
   },
   notFoundH2: { fontSize: 28, fontWeight: 600, margin: 0 },
-  paragraphStyle: { marginBottom: 14, marginTop: 14, color: '#A0A0A0' },
+  paragraphStyle: (mode) => ({
+    marginBottom: 14,
+    marginTop: 14,
+    color: mode === 'light' ? '#525252' : '#A0A0A0',
+    fontWeight:300
+  }),
 };
 
 // ─────────────────────────────────────────────────────────────
@@ -472,6 +493,7 @@ const ProjectDetail = () => {
   const params = useParams();
   const navigate = useNavigate();
   const mobile = useIsMobile(640);
+  const mode = useSelector((state) => state.theme?.mode) || 'dark';
 
   const project = projectsData.find((e) => e.id === Number(params.id));
 
@@ -495,7 +517,7 @@ const ProjectDetail = () => {
       >
         <div style={S.notFound}>
           <h2 style={S.notFoundH2}>Project not found</h2>
-          <p style={{ color: '#7a7a90', margin: 0 }}>
+          <p style={{ color: mode === 'light' ? '#6b6b7b' : '#7a7a90', margin: 0 }}>
             No project with id "{params.id}" exists.
           </p>
           <button
@@ -550,7 +572,7 @@ const ProjectDetail = () => {
 
   return (
     <>
-      <div style={S.page}>
+      <div style={S.page(mode)}>
         <div style={S.container(mobile)}>
           {/* Back nav */}
           <nav style={S.nav}>
@@ -591,16 +613,16 @@ const ProjectDetail = () => {
                 />
                 {bLabel}
               </span>
-              <span style={S.yearLabel}>{date}</span>
+              <span style={S.yearLabel(mode)}>{date}</span>
             </div>
 
-            <h1 style={S.h1(mobile)}>{title}</h1>
-            {tagline && <p style={S.tagline(mobile)}>{tagline}</p>}
+            <h1 style={S.h1(mobile, mode)}>{title}</h1>
+            {tagline && <p style={S.tagline(mobile, mode)}>{tagline}</p>}
 
             {tags.length > 0 && (
               <div style={S.tagRow}>
                 {tags.map((t) => (
-                  <span key={t} style={S.tag}>
+                  <span key={t} style={S.tag(mode)}>
                     {t}
                   </span>
                 ))}
@@ -616,12 +638,12 @@ const ProjectDetail = () => {
                   rel="noopener noreferrer"
                   style={S.btnPrimary}
                 >
-                  <svg
+                    <svg
                     width="11"
                     height="11"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke="currentColor"
+                    stroke={mode === 'light' ? '#ffffff' : '#ffffff'}
                     strokeWidth="2.5"
                   >
                     <path
@@ -638,7 +660,7 @@ const ProjectDetail = () => {
                   href={link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={S.btnGhost}
+                  style={S.btnGhost(mode)}
                 >
                   <svg
                     width="11"
@@ -656,7 +678,7 @@ const ProjectDetail = () => {
                   href={coffeeLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={S.btnCoffee}
+                  style={S.btnCoffee(mode)}
                 >
                   <span style={{ fontSize: 11 }}>☕</span>
                   Buy me a coffee
@@ -665,7 +687,7 @@ const ProjectDetail = () => {
             </div>
           </header>
 
-          <div style={S.divider} />
+          <div style={S.divider(mode)} />
 
           {/* Screenshots */}
           <section style={{ marginBottom: 52 }}>{ScreenshotBlock}</section>
@@ -694,7 +716,7 @@ const ProjectDetail = () => {
 
             if (block.type === 'paragraph') {
               return (
-                <p key={i} style={S.paragraphStyle}>
+                <p key={i} style={S.paragraphStyle(mode)}>
                   {block.content}
                 </p>
               );
@@ -723,10 +745,10 @@ const ProjectDetail = () => {
 <Disclaimer disclaimer={disclaimerText} />
         </div>
         {/* Footer */}
-        <footer style={S.footer}>
+        <footer style={S.footer(mode)}>
           <div style={S.container(mobile)}>
             <div style={S.footerInner}>
-              <span style={S.footerText}>
+              <span style={S.footerText(mode)}>
                 Built with care &amp; lots of coffee ☕
               </span>
               <button style={S.backBtn} onClick={() => navigate(-1)}>
