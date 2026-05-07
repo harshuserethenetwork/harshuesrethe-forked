@@ -1140,8 +1140,59 @@ export const projectsData = [
   },
 ];
 
+const experienceData = [
+  {
+    id: 1,
+    role: 'Software Engineer',
+    company: '@Java R&D Private Limited',
+    companylink: 'https://www.javarndcorp.com/',
+    startDate: 'Oct 2025',
+    endDate: 'Present',
+    logo: '/images/companylogo/java-rnd.png',
+    color: '#ffffff',
+    description:
+      'Working as a Software Engineer, building scalable full-stack applications using the MERN stack. Developing and migrating legacy frontends to React.js and Next.js to improve performance and SEO. Implementing JWT-based authentication and role-based access control (RBAC) using Node.js middleware, managing application state with Zustand, and optimizing APIs through efficient database queries. Handling MySQL to MongoDB migrations using Sequelize and Mongoose, Dockerizing development environments, and deploying applications on AWS EC2.',
+  },
+  {
+    id: 2,
+    role: 'Software Developer',
+    company: '@Net Legends',
+    companylink: 'https://www.netlegends.in/',
+    startDate: 'Apr 2024',
+    endDate: 'Oct 2025',
+    logo: '/images/companylogo/nl-logo.png',
+    color: '#ffffff',
+    description:
+      'Worked as a Software Developer at Net Legends from Jun 2024 to Oct 2025, building scalable full-stack web applications using React.js, Next.js, Node.js, MongoDB, and MySQL. Developed responsive and cross-browser user interfaces from Figma designs using Tailwind CSS and Bootstrap. Contributed to multiple enterprise solutions, including the development of a Flight Information Display System (FIDS) for the aviation sector.',
+  },
+  {
+    id: 3,
+    role: 'Product Design Virtual Experience Program',
+    company: '@Forage',
+    companylink: 'https://www.theforage.com/',
+    startDate: 'Sep 2022',
+    endDate: 'Oct 2022',
+    logo: '/images/companylogo/forage.png',
+    color: '#ffffff',
+    description:
+      'Worked on AI-powered design tools, creating intuitive interfaces for machine learning applications. Collaborated with AI researchers to translate complex algorithms into user-friendly experiences.',
+  },
+  {
+    id: 4,
+    role: 'Google Cloud Fundamentals',
+    company: '@Coursera',
+    companylink: 'https://www.coursera.org/learn/gcp-fundamentals',
+    startDate: 'Aug 2022',
+    endDate: 'Sep 2022',
+    logo: '/images/companylogo/google-logo.png',
+    color: '#ffffff',
+    description:
+      'Designed user experiences for Web3 social platform, focusing on simplifying blockchain interactions. Conducted user research and created design systems that increased user engagement by 60%.',
+  },
+];
+
 const aboutData = [{ hero_image_url: '', resume_url: '' }];
 
 const contactData = [{ hero_image_url: '' }];
 
-export { homeData, aboutData, contactData };
+export { homeData, aboutData, contactData, experienceData };

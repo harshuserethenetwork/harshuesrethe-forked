@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import '../assets/styles/home-styles/Home.css';
 import { Box, Button, ListItem, Typography } from '@mui/material';
@@ -25,7 +25,7 @@ import { homeData } from '../config';
 const Home = () => {
   const styles = useSelector((state) => state.theme.styles); // Get styles from Redux
   const themeValues = useSelector((state) => state.theme);
-
+  const [toggleTestimonial, setToggleTestimonial] = useState(false)
   const buttonClass =
     'knowme-button' +
     ' ' +
@@ -34,6 +34,10 @@ const Home = () => {
   const handleRedirect = (url) => {
     window.open(url, '_blank');
   };
+
+  const handleToggleTestimonial = () => {
+    setToggleTestimonial(true)
+  }
 
   return (
     <>
@@ -242,7 +246,7 @@ const Home = () => {
         fadeOutColor={styles?.mainTheme?.backgroundColor}
         ariaLabel="Technology partners"
       />
-      <Testimonal />
+      {toggleTestimonial && <Testimonal />}
       <Footer />
     </>
   );
