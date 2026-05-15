@@ -347,7 +347,8 @@ export const projectsData = [
     image:
       'https://res.cloudinary.com/da6pzcqcw/image/upload/v1777047888/PRJ002_npfasx.png',
 
-    tagline: 'LocalHire is a full-stack MERN-based job recruitment platform designed for Aspirants and Organizations with separate role-based dashboards. The platform features smart job recommendations, real-time application tracking, secure authentication, centralized activity logging, and dynamic profile management to streamline the hiring and recruitment process efficiently.',
+    tagline:
+      'LocalHire is a full-stack MERN-based job recruitment platform designed for Aspirants and Organizations with separate role-based dashboards. The platform features smart job recommendations, real-time application tracking, secure authentication, centralized activity logging, and dynamic profile management to streamline the hiring and recruitment process efficiently.',
     description: [
       {
         type: 'heading',
