@@ -58,4 +58,3 @@ export const createCasualContact = mutation({
     return recordId;
   },
 });
-

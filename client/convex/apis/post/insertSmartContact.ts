@@ -69,4 +69,3 @@ export const createSmartContact = mutation({
     return recordId;
   },
 });
-

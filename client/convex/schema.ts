@@ -11,6 +11,3 @@ export default defineSchema({
   casual_contact_rate_limit,
   smart_contact_rate_limit,
 });
-
-
-

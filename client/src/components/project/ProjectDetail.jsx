@@ -133,7 +133,8 @@ const S = {
     fontSize: 11,
     fontWeight: 600,
     letterSpacing: '.05em',
-    background: mode === 'light' ? 'rgba(124,110,247,.08)' : 'rgba(124,110,247,.1)',
+    background:
+      mode === 'light' ? 'rgba(124,110,247,.08)' : 'rgba(124,110,247,.1)',
     border:
       mode === 'light'
         ? '1px solid rgba(124,110,247,.22)'
@@ -177,7 +178,10 @@ const S = {
     textDecoration: 'none',
     background: 'transparent',
     color: mode === 'light' ? '#fff' : '#c5c5d8',
-    border: mode === 'light' ? '1px solid #0b0b0f' : '1px solid rgba(255,255,255,.14)',
+    border:
+      mode === 'light'
+        ? '1px solid #0b0b0f'
+        : '1px solid rgba(255,255,255,.14)',
     cursor: 'pointer',
     backgroundColor: mode === 'light' ? '#0b0b0f' : 'transparent',
   }),
@@ -193,7 +197,10 @@ const S = {
     textDecoration: 'none',
     background: mode === 'light' ? '#ffd166' : 'rgba(255,209,102,.08)',
     color: mode === 'light' ? '#0b0b0f' : '#ffd166',
-    border: mode === 'light' ? '1px solid rgba(255,209,102,.55)' : '1px solid rgba(255,209,102,.2)',
+    border:
+      mode === 'light'
+        ? '1px solid rgba(255,209,102,.55)'
+        : '1px solid rgba(255,209,102,.2)',
     cursor: 'pointer',
   }),
 
@@ -268,7 +275,9 @@ const S = {
 
   footer: (mode) => ({
     borderTop:
-      mode === 'light' ? '1px solid rgba(0,0,0,.08)' : '1px solid rgba(255,255,255,.07)',
+      mode === 'light'
+        ? '1px solid rgba(0,0,0,.08)'
+        : '1px solid rgba(255,255,255,.07)',
     padding: '30px 0',
     marginTop: 16,
   }),
@@ -331,7 +340,7 @@ const S = {
     marginBottom: 14,
     marginTop: 14,
     color: mode === 'light' ? '#525252' : '#A0A0A0',
-    fontWeight:300
+    fontWeight: 300,
   }),
 };
 
@@ -517,7 +526,12 @@ const ProjectDetail = () => {
       >
         <div style={S.notFound}>
           <h2 style={S.notFoundH2}>Project not found</h2>
-          <p style={{ color: mode === 'light' ? '#6b6b7b' : '#7a7a90', margin: 0 }}>
+          <p
+            style={{
+              color: mode === 'light' ? '#6b6b7b' : '#7a7a90',
+              margin: 0,
+            }}
+          >
             No project with id "{params.id}" exists.
           </p>
           <button
@@ -638,7 +652,7 @@ const ProjectDetail = () => {
                   rel="noopener noreferrer"
                   style={S.btnPrimary}
                 >
-                    <svg
+                  <svg
                     width="11"
                     height="11"
                     fill="none"
@@ -742,7 +756,7 @@ const ProjectDetail = () => {
 
             return null;
           })}
-<Disclaimer disclaimer={disclaimerText} />
+          <Disclaimer disclaimer={disclaimerText} />
         </div>
         {/* Footer */}
         <footer style={S.footer(mode)}>
@@ -766,7 +780,7 @@ const ProjectDetail = () => {
           onClose={() => setLightbox(null)}
         />
       )}
-      
+
       <Footer />
     </>
   );
