@@ -25,7 +25,7 @@ const Warning = ({ message }) => {
                 <>
                   <Typography
                     component="div"
-                    sx={{ fontWeight: 800, fontSize: '15px', mb: '4px' }}
+                    sx={{ fontWeight: 600, fontSize: '14px', mb: '3.5px' }}
                   >
                     Too many requests
                   </Typography>
