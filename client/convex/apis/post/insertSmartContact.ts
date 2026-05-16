@@ -52,9 +52,12 @@ export const createSmartContact = mutation({
       if (elapsed < RATE_LIMIT_WINDOW_MS) {
         const remainingMs = RATE_LIMIT_WINDOW_MS - elapsed;
         const remainingMinutes = formatRemainingMinutes(remainingMs);
-        throw new ConvexError(
-          `you are submitting message too frequently, please try again after ${remainingMinutes} min`
-        );
+        throw new ConvexError({
+          code: 'RATE_LIMIT',
+          title: 'Too many requests',
+          message: 'you are submitting message too frequently',
+          retryAfter: remainingMinutes,
+        });
       }
     }
 
