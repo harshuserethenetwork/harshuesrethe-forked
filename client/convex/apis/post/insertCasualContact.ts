@@ -1,5 +1,5 @@
 import { mutation } from '../../_generated/server';
-import { v } from 'convex/values';
+import { ConvexError, v } from 'convex/values';
 
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 
@@ -38,7 +38,7 @@ export const createCasualContact = mutation({
       if (elapsed < RATE_LIMIT_WINDOW_MS) {
         const remainingMs = RATE_LIMIT_WINDOW_MS - elapsed;
         const remainingMinutes = formatRemainingMinutes(remainingMs);
-        throw new Error(
+        throw new ConvexError(
           `you are submitting message too frequently, please try again after ${remainingMinutes} min`
         );
       }
