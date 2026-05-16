@@ -30,15 +30,15 @@ const ProjectCard = ({ id, project, isHovered, onHover, onLeave, styles }) => {
     }
   };
 
-  const handleNavigate = (link) => {
-    window.open(link, '_blank');
+  const handleNavigate = (project_id) => {
+    navigate(`/project/${project_id}`);
   };
 
   return (
     <>
       <Box
         key={project.id}
-        onClick={() => handleNavigate(project.link)}
+        onClick={() => handleNavigate(project.id)}
         sx={{ marginTop: handleMarginTop() }}
         className={`prj-inner project-card ${isHovered ? 'hovered' : ''}`}
         onMouseEnter={onHover}

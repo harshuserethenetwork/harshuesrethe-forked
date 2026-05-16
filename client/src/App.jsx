@@ -14,6 +14,7 @@ import { useMediaQuery, useTheme } from '@mui/material';
 import Project from './pages/Project';
 import Contact from './pages/Contact';
 import Dashboard from './pages/Dashboard';
+import ProjectDetail from './components/project/ProjectDetail';
 
 const Layout = () => {
   const theme = useTheme();
@@ -44,6 +45,7 @@ const Layout = () => {
           path={`/dashboard/admin/pass/${formatted}`}
           element={<Dashboard />}
         />
+        <Route path="/project/:id" element={<ProjectDetail />} />
         <Route path="*" element={<div>404</div>} />
       </Routes>
     </>

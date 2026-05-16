@@ -7,6 +7,7 @@ import ShinyText from '../shared/ShinyText';
 import SplitText from '../shared/SplitText';
 import AnimatedButton from '../shared/AnimatedButton';
 import { homeData } from '../../config';
+import { Link } from 'react-router-dom';
 
 const MyProjects = () => {
   const styles = useSelector((state) => state.theme.styles); // Get styles from Redux
@@ -122,7 +123,8 @@ const MyProjects = () => {
                 zIndex: '1',
               }}
             />
-            <a href={p.link} className="h-fit w-full">
+            {/* <a href={p.link} className="h-fit w-full"> */}
+            <Link to={p.link} className="h-fit w-full">
               <div
                 style={{
                   backgroundColor: styles?.mainTheme?.backgroundColor,
@@ -180,7 +182,7 @@ const MyProjects = () => {
                   </p>
                 </div>
               </div>
-            </a>
+            </Link>
           </div>
         ))}
       </Box>
