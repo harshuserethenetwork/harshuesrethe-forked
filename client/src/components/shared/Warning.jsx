@@ -13,25 +13,29 @@ const Warning = ({ message }) => {
         {(() => {
           const data = message?.data;
 
-          if (data && data.code === 'RATE_LIMIT') {
+          const isGenericServerError =
+            (typeof data === 'string' && data.includes('Server Error')) ||
+            (typeof data?.message === 'string' && data.message.includes('Server Error'));
+
+          if ((data && data.code === 'RATE_LIMIT') || isGenericServerError) {
             return (
               <>
                 <Typography
                   component="div"
                   sx={{ fontWeight: 600, fontSize: '14px', mb: '3.5px' }}
                 >
-                  {data.title || 'Too many requests'}
+                  {data?.title || 'Too many requests'}
                 </Typography>
                 <Typography component="div" sx={{ fontSize: '14px' }}>
-                  {data.retryAfter != null
+                  {data?.retryAfter != null
                     ? `${data.message}, please try again after ${data.retryAfter} min`
-                    : `${data.message}, please try again later`}
+                    : 'you are submitting message too frequently, please try again later'}
                 </Typography>
               </>
             );
           }
 
-          return data;
+          return typeof data === 'object' ? (data?.message || 'Something went wrong') : data;
         })()}
       </Alert>
     </>
