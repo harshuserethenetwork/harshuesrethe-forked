@@ -328,12 +328,12 @@ const SmartContact = () => {
         attachments:
           formData.uploadedFiles?.length > 0
             ? [
-                {
-                  file_name: formData.uploadedFiles[0].name,
-                  file_type: formData.uploadedFiles[0].type,
-                  file_url: storageId,
-                },
-              ]
+              {
+                file_name: formData.uploadedFiles[0].name,
+                file_type: formData.uploadedFiles[0].type,
+                file_url: storageId,
+              },
+            ]
             : [],
         budget: formData.budget,
         client_info: {
@@ -351,7 +351,7 @@ const SmartContact = () => {
       });
       setIsSubmitted(true);
     } catch (error) {
-      setErrMessage(error.message || 'Something went wrong');
+      setErrMessage(error.data || 'Something went wrong');
     } finally {
       setIsSubmitting(false);
     }
