@@ -56,8 +56,10 @@ const ContactSection = ({ handleDiscussProjectButton }) => {
       });
       setFormData({ fullName: '', email: '', message: '' });
     } catch (error) {
+      const errorData = error?.data || { message: error?.message || 'Something went wrong' };
+
       setMsg({
-        data: error.data,
+        data: typeof errorData === 'string' ? { message: errorData } : errorData,
         type: 'error',
       });
     } finally {
