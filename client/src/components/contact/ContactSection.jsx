@@ -57,7 +57,7 @@ const ContactSection = ({ handleDiscussProjectButton }) => {
       setFormData({ fullName: '', email: '', message: '' });
     } catch (error) {
       setMsg({
-        data: error.message,
+        data: error.data,
         type: 'error',
       });
     } finally {

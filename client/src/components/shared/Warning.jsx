@@ -2,6 +2,8 @@ import { Alert, Typography } from '@mui/material';
 import React from 'react';
 
 const Warning = ({ message }) => {
+  console.log(message);
+
   return (
     <>
       <Alert
