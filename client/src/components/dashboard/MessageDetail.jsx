@@ -78,8 +78,8 @@ const MessageDetail = ({ message, onBack, onDelete, onUpdateStatus }) => {
     message.type === 'direct'
       ? message.raw.message?.split(' ').slice(0, 7).join(' ') || 'No Subject'
       : message.raw.client_info?.prj_title ||
-      message.raw.prj_type ||
-      'Project Query';
+        message.raw.prj_type ||
+        'Project Query';
 
   /* ─────────────────────────────────────────────── */
   return (

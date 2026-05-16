@@ -14,8 +14,9 @@ const Warning = ({ message }) => {
           // If backend error leaks extra Convex metadata, map it to a clean UI.
           if (typeof data === 'string') {
             const lower = data.toLowerCase();
-            const tooFrequent =
-              lower.includes('you are submitting message too frequently');
+            const tooFrequent = lower.includes(
+              'you are submitting message too frequently'
+            );
 
             if (tooFrequent) {
               const match = data.match(/try again after\s+(\d+)\s+min/i);
@@ -24,7 +25,7 @@ const Warning = ({ message }) => {
                 <>
                   <Typography
                     component="div"
-                    sx={{ fontWeight: 800, fontSize: '15px', mb: '4px' }}
+                    sx={{ fontWeight: 600, fontSize: '14px', mb: '4px' }}
                   >
                     Too many requests
                   </Typography>

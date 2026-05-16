@@ -7,4 +7,3 @@ export const smart_contact_rate_limit = defineTable({
   created_at: v.number(),
   updated_at: v.number(),
 }).index('by_identity', ['identity']);
-
