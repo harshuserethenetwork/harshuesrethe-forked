@@ -15,6 +15,7 @@ import Project from './pages/Project';
 import Contact from './pages/Contact';
 import Dashboard from './pages/Dashboard';
 import ProjectDetail from './components/project/ProjectDetail';
+import NotLive from './components/shared/NotLive';
 
 const Layout = () => {
   const theme = useTheme();
@@ -27,7 +28,7 @@ const Layout = () => {
     (d.getMonth() + 1).toString().padStart(2, '0') +
     d.getFullYear();
 
-  const hideHeaderRoutes = [`/dashboard/admin/pass/${formatted}`];
+  const hideHeaderRoutes = [`/dashboard/admin/pass/${formatted}`, '/not-live'];
 
   return (
     <>
@@ -46,6 +47,7 @@ const Layout = () => {
           element={<Dashboard />}
         />
         <Route path="/project/:id" element={<ProjectDetail />} />
+        <Route path="/not-live" element={<NotLive />} />
         <Route path="*" element={<div>404</div>} />
       </Routes>
     </>
