@@ -327,7 +327,7 @@ export const projectsData = [
       'WebSocket',
     ],
 
-    liveLink: '',
+    liveLink: '/not-live',
     coffeeLink: 'https://buymeacoffee.com/you',
 
     screenshots: [
@@ -343,7 +343,7 @@ export const projectsData = [
     title: 'Local Hire',
     category: 'development',
     date: '2024',
-    link: 'https://github.com/HarshUserethe/LocalHire-Jobs-Portal',
+    link: 'https://github.com/HarshUserethe/LocalHire',
     image:
       'https://res.cloudinary.com/da6pzcqcw/image/upload/v1777047888/PRJ002_npfasx.png',
 
@@ -491,7 +491,7 @@ export const projectsData = [
       },
     ],
     tags: ['React', 'Node', 'Express', 'MongoDB', 'Geolocation API'],
-    liveLink: 'https://google.com/',
+    liveLink: '/not-live',
     coffeeLink: 'https://buymeacoffee.com/you',
     screenshots: [
       {
@@ -642,7 +642,7 @@ export const projectsData = [
       },
     ],
     tags: ['Node', 'Express', 'Firebase', 'Razorpay', 'REST API', 'Backend'],
-    liveLink: '',
+    liveLink: '/not-live',
     coffeeLink: 'https://buymeacoffee.com/you',
     screenshots: [
       {
@@ -776,7 +776,7 @@ export const projectsData = [
       },
     ],
     tags: ['Next.js', 'API', 'Tailwind CSS', 'Node', 'Express'],
-    liveLink: '',
+    liveLink: '/not-live',
     coffeeLink: 'https://buymeacoffee.com/you',
     screenshots: [
       {
@@ -791,7 +791,7 @@ export const projectsData = [
     title: 'Ward Management',
     category: 'development',
     date: '2024',
-    link: 'https://github.com/HarshUserethe/Ward-WorkStation',
+    link: 'https://github.com/HarshUserethe/Ward-WorkStation-Application',
     image:
       'https://res.cloudinary.com/da6pzcqcw/image/upload/v1777047888/PRJ004_l3jvty.png',
 
@@ -929,7 +929,7 @@ export const projectsData = [
       },
     ],
     tags: ['React', 'Node.js', 'PostgreSQL', 'Role-based Auth'],
-    liveLink: '',
+    liveLink: '/not-live',
     coffeeLink: 'https://buymeacoffee.com/you',
     screenshots: [
       {
@@ -1062,7 +1062,7 @@ export const projectsData = [
       },
     ],
     tags: ['Node.js', 'Express', 'React', 'GridFS', 'Mongodb'],
-    liveLink: '',
+    liveLink: '/not-live',
     coffeeLink: 'https://buymeacoffee.com/you',
     screenshots: [
       {
@@ -1130,7 +1130,7 @@ export const projectsData = [
       },
     ],
     tags: ['HTML', 'CSS', 'GSAP', 'ScrollTrigger'],
-    liveLink: '',
+    liveLink: 'https://harshuserethe.github.io/RocketAir-Clone/',
     coffeeLink: 'https://buymeacoffee.com/you',
     screenshots: [
       {

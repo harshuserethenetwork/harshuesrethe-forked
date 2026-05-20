@@ -648,7 +648,6 @@ const ProjectDetail = () => {
               {liveLink && (
                 <a
                   href={liveLink}
-                  target="_blank"
                   rel="noopener noreferrer"
                   style={S.btnPrimary}
                 >
