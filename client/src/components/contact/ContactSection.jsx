@@ -13,10 +13,10 @@ import ShinyText from '../shared/ShinyText';
 import { useSelector } from 'react-redux';
 import SplitText from '../shared/SplitText';
 import AnimatedButton from '../shared/AnimatedButton';
-import HarshUseretheImage from '../../assets/images/picofmine.webp';
 import { useMutation } from 'convex/react';
 import { api } from '../../../convex/_generated/api';
 import Warning from '../shared/Warning';
+import { aboutData } from '../../config';
 
 const ContactSection = ({ handleDiscussProjectButton }) => {
   const createContact = useMutation(
@@ -31,6 +31,7 @@ const ContactSection = ({ handleDiscussProjectButton }) => {
     email: '',
     message: '',
   });
+  const HarshUseretheImage = aboutData[0].profile_circle;
 
   const handleChange = (e) => {
     setFormData({

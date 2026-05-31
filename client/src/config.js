@@ -1192,7 +1192,7 @@ const experienceData = [
   },
 ];
 
-const aboutData = [{ hero_image_url: '', resume_url: '' }];
+const aboutData = [{ hero_image_url: '/images/heroImages/harshuseretheimg.png', resume_url: '', profile_circle: '/images/heroImages/profile.png' }];
 
 const contactData = [{ hero_image_url: '' }];
 
