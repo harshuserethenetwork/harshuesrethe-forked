@@ -9,13 +9,13 @@ import Experience from '../components/about/Experience.jsx';
 import MyProccess from '../components/about/MyProccess.jsx';
 import MyAwards from '../components/about/MyAwards.jsx';
 import Footer from '../components/home/Footer.jsx';
-import HarshUseretheImage from '../assets/images/harshuseretheimg.webp';
+// import HarshUseretheImage from '../assets/images/harshuseretheimg.png';'
 import { homeData, aboutData } from '../config.js';
 
 const About = () => {
   const styles = useSelector((state) => state.theme.styles);
   const themeValues = useSelector((state) => state.theme);
-
+  const HarshUseretheImage = aboutData[0].hero_image_url;
   return (
     <>
       <Overlay />
