@@ -1196,4 +1196,6 @@ const aboutData = [{ hero_image_url: '/images/heroImages/harshuseretheimg.png', 
 
 const contactData = [{ hero_image_url: '' }];
 
-export { homeData, aboutData, contactData, experienceData };
+const generalInfo = [{rights_year: '2026'}]
+
+export { homeData, aboutData, contactData, experienceData, generalInfo };
