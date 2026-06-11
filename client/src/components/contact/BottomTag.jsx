@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux';
 import '../../assets/styles/home-styles/Footer.css';
 import '../styles/contact-styles/ContactSection.css';
-import { generalInfo } from '../../config';
 
 const BottomTag = () => {
   const styles = useSelector((state) => state.theme.styles);
@@ -43,7 +42,7 @@ const BottomTag = () => {
               margin: 0,
             }}
           >
-            © {generalInfo[0].rights_year} Harsh Userethe. All rights reserved.
+            ©2026 Harsh Userethe. All rights reserved.
           </p>
 
           {/* Social Icons */}
