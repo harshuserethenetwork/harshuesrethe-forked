@@ -5,6 +5,7 @@ import SplitText from '../shared/SplitText';
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import AnimatedButton from '../shared/AnimatedButton';
+import { generalInfo } from '../../config';
 
 const Footer = ({ projectCategory }) => {
   const styles = useSelector((state) => state.theme.styles);
@@ -164,7 +165,7 @@ const Footer = ({ projectCategory }) => {
               margin: 0,
             }}
           >
-            © 2025 Harsh Userethe. All rights reserved.
+            © {generalInfo[0].rights_year} Harsh Userethe. All rights reserved.
           </p>
 
           {/* Social Icons */}
