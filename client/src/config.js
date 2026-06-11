@@ -5,6 +5,7 @@ import {
   LuPencilRuler,
 } from 'react-icons/lu';
 
+
 const homeData = {
   imageLogos: [
     {
@@ -219,10 +220,6 @@ const homeData = {
     },
   ],
 };
-
-// config/projectsData.js  (or wherever your config lives)
-// Added: description, tags, liveLink, coffeeLink, screenshots
-// Existing fields (id, title, category, date, link, image) are untouched.
 
 export const projectsData = [
   {
@@ -1196,6 +1193,5 @@ const aboutData = [{ hero_image_url: '/images/heroImages/harshuseretheimg.png', 
 
 const contactData = [{ hero_image_url: '' }];
 
-const generalInfo = [{rights_year: '2026'}]
 
-export { homeData, aboutData, contactData, experienceData, generalInfo };
+export { homeData, aboutData, contactData, experienceData };
