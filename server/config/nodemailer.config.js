@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
 
 // Verify connection on startup
 transporter.verify((err) => {
-  if (err) console.error("❌ SMTP connection failed:", err.message);
+  if (err) console.error("❌ SMTP connection failed:", err);
   else console.log("✅ SMTP transporter ready");
 });
 
