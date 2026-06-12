@@ -1,6 +1,10 @@
 import nodemailer from "nodemailer";
 import env from "./env.js";
 
+console.log("SMTP Host:", env.smtp.host);
+console.log("SMTP Port:", env.smtp.port);
+console.log("SMTP User:", env.smtp.user);
+
 const transporter = nodemailer.createTransport({
   host: env.smtp.host,
   port: env.smtp.port,
